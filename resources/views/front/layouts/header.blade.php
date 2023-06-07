@@ -1,4 +1,9 @@
-<div class="header header-transparent change-logo">
+<?php
+//$url = url()->current(); 
+$routeName = \Route::currentRouteName();
+//dd($routeName);
+?>
+<div class="header {{ $routeName=='landing' ? 'header-transparent' : 'header-light' }} change-logo">
     <div class="container">
         <nav id="navigation" class="navigation navigation-landscape">
             <div class="nav-header">

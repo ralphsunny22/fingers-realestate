@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('state')->nullable();
             $table->text('zipcode')->nullable();
             $table->json('landmarks')->nullable();
+            $table->longText('google_map_location')->nullable();
 
             $table->longText('description')->nullable();
 

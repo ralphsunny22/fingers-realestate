@@ -227,7 +227,7 @@
 
                                                 <div class="landmarks-clone-section wrapper">
                                                     <div class="form-group col-md-12 mt-1 element">
-                                                        <label>Landmarks<span class="tip-topdata" data-tip="Nearby places to property location"><i class="ti-help"></i></span></label>
+                                                        <label>Nearby<span class="tip-topdata" data-tip="Nearby places to property location"><i class="ti-help"></i></span></label>
                                                         <input type="text" name="landmarks[]" class="form-control" placeholder="" value="">
                                                     </div>
                                     

@@ -214,9 +214,35 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function singleProperty(string $id)
     {
-        //
+        $property = Property::where('id',$id)->first();
+        if(!isset($property)){
+            abort(404);
+        }
+        $images = isset($property->images) ? json_decode($property->images) : '';
+        $property_features = isset($property->property_features) ? json_decode($property->property_features) : '';
+
+        // Create an empty array to store the formatted data
+        $formattedFeatures = [];
+
+        // Loop through the property features
+        foreach ($property_features as $key => $value) {
+            // Create an associative array with the key and value
+            $formattedFeatures[] = [$key => $value];
+        }
+        //return $formattedFeatures; //[{"Area":"878sqft"},{"Year Built":"12-12-1999"}]
+        $vParameter = '';
+        if (isset($property->featured_video)) {
+            $url = $property->featured_video;
+            $parsedUrl = parse_url($url); //{"scheme":"https","host":"www.youtube.com","path":"\/watch","query":"v=KbTjl1PNCzg"}
+            parse_str($parsedUrl['query'], $queryParams);
+            $vParameter = $queryParams['v'];
+        }
+
+        $landmarks = isset($property->landmarks) ? json_decode($property->landmarks) : '';
+        
+        return view('front.pages.properties.singleProperty', compact('property', 'images', 'property_features', 'vParameter', 'landmarks'));
     }
 
     /**

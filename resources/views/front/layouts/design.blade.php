@@ -32,7 +32,7 @@
             <!-- Top header  -->
             <!-- ============================================================== -->
             <!-- Start Navigation -->
-			@include('layouts.header')
+			@include('front.layouts.header')
 			<!-- End Navigation -->
 			<div class="clearfix"></div>
 			<!-- ============================================================== -->
@@ -43,7 +43,7 @@
 			@yield('content')
 			
 			<!-- ============================ Footer Start ================================== -->
-			@include('layouts.footer')
+			@include('front.layouts.footer')
 			<!-- ============================ Footer End ================================== -->
 			
 			<!-- Log In Modal -->
@@ -209,7 +209,7 @@
 		<script src="{{asset('/assets/js/slider-bg.js')}}"></script>
 		<script src="{{asset('/assets/js/lightbox.js')}}"></script> 
 		<script src="{{asset('/assets/js/imagesloaded.js')}}"></script>
-		 
+
 		<script src="{{asset('/assets/js/custom.js')}}"></script>
 		<!-- ============================================================== -->
 		<!-- This page plugins -->

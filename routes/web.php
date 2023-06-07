@@ -23,3 +23,6 @@ Route::get('/admin-add-property', [PropertyController::class, 'addProperty'])->n
 Route::post('/admin-add-property', [PropertyController::class, 'addPropertyPost'])->name('addPropertyPost');
 Route::get('/ajax-create-property-feature', [PropertyController::class, 'ajaxAddFeature'])->name('ajaxAddFeature');
 Route::get('/ajax-create-amenity-feature', [PropertyController::class, 'ajaxAddAmenity'])->name('ajaxAddAmenity');
+
+//front
+Route::get('/single-property/{id}', [PropertyController::class, 'singleProperty'])->name('singleProperty');

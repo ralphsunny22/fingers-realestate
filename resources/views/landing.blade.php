@@ -1,4 +1,4 @@
-@extends('layouts.design')
+@extends('front.layouts.design')
 @section('title')Home @endsection
 
 @section('extra_css')
