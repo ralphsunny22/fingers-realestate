@@ -168,6 +168,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Dawson\Youtube\YoutubeServiceProvider::class,
+        Vimeo\Laravel\VimeoServiceProvider::class
     ])->toArray(),
 
     /*
@@ -183,6 +185,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Youtube' => Dawson\Youtube\Facades\Youtube::class,
+        'Vimeo' => Vimeo\Laravel\Facades\Vimeo::class
     ])->toArray(),
 
 ];

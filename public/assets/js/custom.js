@@ -430,12 +430,24 @@ $(function() {
 		placeholder: "Show All",
 		allowClear: true
 	});
-	
+
 	// Select Property Types
-	$('#status').select2({
+	$('#for_what').select2({
 		placeholder: "Show All",
 		allowClear: true
 	});
+
+	// Select Property Types
+	$('#floors').select2({
+		placeholder: "Show All",
+		allowClear: true
+	});
+	
+	// Select Property Types
+	// $('#status').select2({
+	// 	placeholder: "Show All",
+	// 	allowClear: true
+	// });
 	
 	// specialisms
 	$('#shorty').select2({
@@ -486,10 +498,10 @@ $(function() {
 	});
 	
 	// Select Status
-	$('#status').select2({
-		placeholder: "Select Status",
-		allowClear: true
-	});
+	// $('#status').select2({
+	// 	placeholder: "Select Status",
+	// 	allowClear: true
+	// });
 	
 	// Select Rooms
 	$('#rooms').select2({
