@@ -43,11 +43,11 @@ class PropertyController extends Controller
             'city' => 'nullable|string',
             'state' => 'nullable|string',
             'zipcode' => 'nullable|string',
-            'landmarks.*' => 'nullable|string',
+            'landmarks' => 'nullable|array',
             'description' => 'nullable|string',
             //'images' => 'required|image|size:2048|mimes:jpg,png,jpeg,gif,svg,webp',
             'images' => 'required|array',
-            'images.*' => 'image|size:2048|mimes:jpg,png,jpeg,gif,svg,webp',
+            'images.*' => 'image|max:2048|mimes:jpg,png,jpeg,gif,svg,webp',
             
             'youtube_videos' => 'nullable|string',
         );
@@ -71,12 +71,11 @@ class PropertyController extends Controller
             'city.string' => '* Invalid Characters',
             'state.string' => '* Invalid Characters',
             'zipcode.string' => '* Invalid Characters',
-            'landmarks.string' => '* Invalid Characters',
             'description.string' => '* Invalid Characters',
 
             'images.required' => '* This field is required',
             'images.image' => '* Only images can be uploaded',
-            'images.size' => '* The file must be less than 2MB',
+            'images.max' => '* The file must be less than 2MB',
             'images.mimes' => '* The images field must be a file of type: jpeg, jpg, png, gif, svg, webp.',
             
             'youtube_videos.string' => '* Invalid Characters',
@@ -86,7 +85,7 @@ class PropertyController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-
+        
         $data = $request->all();
         
         //json_encode($data['landmarks']);
@@ -122,6 +121,8 @@ class PropertyController extends Controller
         $property->state = $data['state'];
         $property->zipcode = $data['zipcode'];
         $property->landmarks = !empty($data['landmarks']) ? json_encode($data['landmarks']) : null;
+        
+        $property->google_map_location = !empty($data['google_map_location']) ? $data['google_map_location'] : null;
 
         $property->description = $data['description'];
 
@@ -241,8 +242,10 @@ class PropertyController extends Controller
         }
 
         $landmarks = isset($property->landmarks) ? json_decode($property->landmarks) : '';
+
+        $reviews = $property->reviews;
         
-        return view('front.pages.properties.singleProperty', compact('property', 'images', 'property_features', 'vParameter', 'landmarks'));
+        return view('front.pages.properties.singleProperty', compact('property', 'images', 'property_features', 'vParameter', 'landmarks', 'reviews'));
     }
 
     /**

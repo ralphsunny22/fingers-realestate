@@ -86,6 +86,16 @@
                     {{Session::get('success')}}
                 </div>
                 @endif
+
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -225,6 +235,11 @@
                                                     <input type="text" name="zipcode" class="form-control" value="{{ old('zipcode') }}">
                                                 </div>
 
+                                                <div class="form-group col-md-12">
+                                                    <label>Google Map Location</label>
+                                                    <input type="text" name="google_map_location" class="form-control" placeholder="Pasted Embedded Code" value="{{ old('google_map_location') }}">
+                                                </div>
+                                                
                                                 <div class="landmarks-clone-section wrapper">
                                                     <div class="form-group col-md-12 mt-1 element">
                                                         <label>Nearby<span class="tip-topdata" data-tip="Nearby places to property location"><i class="ti-help"></i></span></label>

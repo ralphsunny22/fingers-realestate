@@ -7,10 +7,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $guarded = []; 
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->unique_key = $model->createUniqueKey(Str::random(30));
+        });
+    }
+
+    //check if unique_key exists
+    private function createUniqueKey($string){
+        if (static::whereUniqueKey($unique_key = $string)->exists()) {
+            $random = rand(1000, 9000);
+            $unique_key = $string.''.$random;
+            return $unique_key;
+        }
+
+        return $string;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +65,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'created_by');  
+    }
 }

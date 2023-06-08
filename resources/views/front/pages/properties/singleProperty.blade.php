@@ -2,6 +2,13 @@
 @section('title'){{ $property->title }} @endsection
 
 @section('extra_css')
+<style>
+    .iti {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -231,22 +238,24 @@
                 </div>
                 
                 <!-- Google Map Location Wrap -->
+                @if (isset($property->google_map_location))
                 <div class="property_block_wrap style-2">
                     
                     <div class="property_block_wrap_header">
-                        <a data-bs-toggle="collapse" data-parent="#loca"  data-bs-target="#clSix" aria-controls="clSix" href="javascript:void(0);" aria-expanded="true" class="collapsed"><h4 class="property_block_title">Location</h4></a>
+                        <a data-bs-toggle="collapse" data-parent="#loca"  data-bs-target="#clSix" aria-controls="clSix" href="javascript:void(0);" aria-expanded="true" class="collapsed"><h4 class="property_block_title">Google Map Location</h4></a>
                     </div>
                     
                     <div id="clSix" class="panel-collapse collapse">
                         <div class="block-body">
                             <div class="map-container">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.3838103135677!2d80.87929001488125!3d26.827742183164247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfe8bc34b51bb%3A0xa3ca86eec63f6f8!2sINFOSYS%20DIGITAL%20COMPUTER%20(Prabhat%20Computer%20Classes)!5e0!3m2!1sen!2sin!4v1680238790732!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                {!! $property->google_map_location !!}
                             </div>
 
                         </div>
                     </div>
                     
                 </div>
+                @endif
 
                 <!-- Landmark Nearby Wrap -->
                 @if ($landmarks !== '')
@@ -333,6 +342,7 @@
                 <!-- All over Review -->
                 
                 <!-- Single Reviews Block -->
+                @if (count($reviews) > 0)
                 <div class="property_block_wrap style-2">
                     
                     <div class="property_block_wrap_header">
@@ -344,6 +354,7 @@
                             <div class="author-review">
                                 <div class="comment-list">
                                     <ul>
+                                        @foreach ($reviews as $review)
                                         <li class="article_comments_wrap">
                                             <article>
                                                 <div class="article_comments_thumb">
@@ -352,44 +363,27 @@
                                                 <div class="comment-details">
                                                     <div class="comment-meta">
                                                         <div class="comment-left-meta">
-                                                            <h4 class="author-name">Rosalina Kelian</h4>
-                                                            <div class="comment-date">19th May 2018</div>
+                                                            <h4 class="author-name">{{ $review->createdBy->name }}</h4>
+                                                            <div class="comment-date">{{ $review->created_at }}</div>
                                                         </div>
                                                     </div>
                                                     <div class="comment-text">
-                                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
-                                                            perspiciatis unde omnis iste natus error.</p>
+                                                        <p>{!! $review->review_content !!}</p>
                                                     </div>
                                                 </div>
                                             </article>
                                         </li>
-                                        <li class="article_comments_wrap">
-                                            <article>
-                                                <div class="article_comments_thumb">
-                                                    <img src="{{asset('/assets/img/user-5.jpg')}}" alt="">
-                                                </div>
-                                                <div class="comment-details">
-                                                    <div class="comment-meta">
-                                                        <div class="comment-left-meta">
-                                                            <h4 class="author-name">Rosalina Kelian</h4>
-                                                            <div class="comment-date">19th May 2018</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-text">
-                                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
-                                                            perspiciatis unde omnis iste natus error.</p>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </li>
+                                        @endforeach
+                                        
                                     </ul>
                                 </div>
                             </div>
-                            <a href="#" class="reviews-checked theme-cl"><i class="fas fa-arrow-alt-circle-down mr-2"></i>See More Reviews</a>
+                            <a href="#" class="reviews-checked theme-cl d-none"><i class="fas fa-arrow-alt-circle-down mr-2"></i>See More Reviews</a>
                         </div>
                     </div>
                     
                 </div>
+                @endif
                 
                 <!-- Single Write a Review -->
                 <div class="property_block_wrap style-2">
@@ -400,40 +394,45 @@
                     
                     <div id="clTen" class="panel-collapse collapse show">
                         <div class="block-body">
-                            <form class="simple-form">
+                            <div class="alert alert-success mb-3 text-center" id="review_alert" style="display: none"></div>
+                            <div class="alert alert-danger mb-3 text-center" id="review_alert_error" style="display: none"></div>
+
+                            <form class="simple-form" id="addReviewForm" action="">@csrf
                                 <div class="row">
                                     
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <textarea class="form-control ht-80" placeholder="Messages"></textarea>
+                                            <textarea name="review_content" id="review_content" class="form-control ht-80" placeholder="Messages"></textarea>
+                                            <input type="hidden" name="property_id" value="{{$property->id}}">
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Property Title">
+                                            <input type="text" name="name" class="form-control" placeholder="Your Name">
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Your Name">
+                                            <input type="tel" id="mobile_code" class="form-control w-100" placeholder="Phone Number" name="phone_1">
                                         </div>
+                                        <input type="hidden" name="countrycode" id="countrycode">
                                     </div>
                                     
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="Your Email">
+                                            <input type="email" id="email" class="form-control" placeholder="Your Email" name="email">
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <button class="btn btn-theme-light-2 rounded" type="submit">Submit Review</button>
+                                            <button class="btn btn-theme-light rounded" type="submit">Submit Review</button>
                                         </div>
                                     </div>
                                     
-                                </div>
+                                 </div>
                             </form>
                         </div>
                     </div>
@@ -656,4 +655,85 @@
 @endsection
 
 @section('extra_js')
+
+<script>
+    // -----Country Code Selection
+    var input = document.querySelector("#mobile_code");
+    window.intlTelInput(input, {
+    // allowDropdown: false,
+    // autoInsertDialCode: true,
+    // autoPlaceholder: "off",
+    // dropdownContainer: document.body,
+    // excludeCountries: ["us"],
+    // formatOnDisplay: false,
+    // geoIpLookup: function(callback) {
+    //   fetch("https://ipapi.co/json")
+    //     .then(function(res) { return res.json(); })
+    //     .then(function(data) { callback(data.country_code); })
+    //     .catch(function() { callback("us"); });
+    // },
+    // hiddenInput: "full_number",
+    // initialCountry: "auto",
+    // localizedCountries: { 'de': 'Deutschland' },
+    // nationalMode: false,
+    // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    // placeholderNumberType: "MOBILE",
+    preferredCountries: ['ng', 'us'],
+    // separateDialCode: true,
+    // showFlags: false,
+    utilsScript: "/assets/build/js/utils.js"
+    });
+    
+</script>
+
+<!---addAmenityModal--->
+<script>
+    //amenity Modal
+   $('#addReviewForm').submit(function(e){
+        e.preventDefault();
+        var review_content = $("#review_content").val();
+        //console.log(review_content);
+        
+        var countrycode = $(".iti__selected-flag").attr('title').split(': ')[1].trim();
+        $('input#countrycode').val('');
+        $('input#countrycode').val(countrycode);
+        
+        //console.log(countrycode);
+        
+        if (review_content != '') {
+
+            $.ajax({
+                type:'get',
+                url:'/ajax-create-review',
+                // data:{ category_name:category_name },
+                data: $(this).serialize(),
+                success:function(resp){
+                    console.log(resp)
+                    if (resp.status) {
+                        
+                        $('review_alert_error')
+                        $('#review_alert').show();                   
+                        $('#review_alert').text('');                   
+                        $('#review_alert').text('Message Sent Successfully!');
+                        review_content.val('');
+                        $('#mobile_code').val();
+                        $('#phone_1').val();
+                        $('#email').val();
+
+                    } else {
+                        $('#review_alert_error').show();                   
+                        $('#review_alert_error').text('');                   
+                        $('#review_alert_error').text(resp.data);
+                    } 
+                        
+                },error:function(){
+                    alert("Error");
+                }
+            });
+        
+        } else {
+            alert('Error: Something went wrong')
+        }
+   });
+</script>
 @endsection

@@ -12,6 +12,14 @@
 
 		<!-- Custom Color Option -->
 		<link href="{{asset('/assets/css/colors.css')}}" rel="stylesheet">
+		<link href="{{asset('/assets/build/css/intlTelInput.css')}}" rel="stylesheet">
+		
+		<style>
+			.primaryBgColor:{
+				background: #009688 !important;
+				color: #fff !important;
+			}
+		</style>
 		
         @yield('extra_css')
     </head>
@@ -199,6 +207,7 @@
 		<!-- ============================================================== -->
 		<!-- All Jquery -->
 		<!-- ============================================================== -->
+		<script src="{{asset('/assets/build/js/intlTelInput.js')}}"></script>
 		<script src="{{asset('/assets/js/jquery.min.js')}}"></script>
 		<script src="{{asset('/assets/js/popper.min.js')}}"></script>
 		<script src="{{asset('/assets/js/bootstrap.min.js')}}"></script>
@@ -211,6 +220,8 @@
 		<script src="{{asset('/assets/js/imagesloaded.js')}}"></script>
 
 		<script src="{{asset('/assets/js/custom.js')}}"></script>
+		
+		
 		<!-- ============================================================== -->
 		<!-- This page plugins -->
 		<!-- ============================================================== -->

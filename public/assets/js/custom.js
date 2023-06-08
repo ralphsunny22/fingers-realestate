@@ -498,10 +498,10 @@ $(function() {
 	});
 	
 	// Select Status
-	// $('#status').select2({
-	// 	placeholder: "Select Status",
-	// 	allowClear: true
-	// });
+	$('.phone_code').select2({
+		placeholder: "Show All",
+		allowClear: true
+	});
 	
 	// Select Rooms
 	$('#rooms').select2({

@@ -26,3 +26,6 @@ Route::get('/ajax-create-amenity-feature', [PropertyController::class, 'ajaxAddA
 
 //front
 Route::get('/single-property/{id}', [PropertyController::class, 'singleProperty'])->name('singleProperty');
+//reviews
+Route::post('/add-review', [ReviewController::class, 'addReviewPost'])->name('addReviewPost');
+Route::get('/ajax-create-review', [ReviewController::class, 'ajaxAddReview'])->name('ajaxAddReview');
